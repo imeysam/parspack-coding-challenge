@@ -13,7 +13,7 @@ class FileStoreService implements FileStoreServiceInterface
 
     public function __construct()
     {
-        $this->file_full_path = base_path('product_comments');
+        $this->file_full_path = storage_path('product_comments');
 
         exec("touch {$this->file_full_path}");
     }
@@ -27,14 +27,14 @@ class FileStoreService implements FileStoreServiceInterface
     public function store($name, $value)
     {
         $result = exec("grep -rnw '{$this->file_full_path}' -e '{$name}:.*'");
-        $result = exec("sed -i 's/{$name}:.*/{$name}: {$value}/gm' {$this->file_full_path}");
-        // if(strlen($result))
-        // {
-        // }
-        // else
-        // {
-        //     $result = exec("echo '{$name}: {$value}' >> {$this->file_full_path}");
-        // }
+        if(strlen($result) > 0)
+        {
+            $result = exec("sed -i 's/{$name}:.*/{$name}: {$value}/gm' {$this->file_full_path}");
+        }
+        else
+        {
+            $result = exec("echo '{$name}: {$value}' >> {$this->file_full_path}");
+        }
 
         return $result;
     }

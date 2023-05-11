@@ -27,14 +27,14 @@ class FileStoreService implements FileStoreServiceInterface
     public function store($name, $value)
     {
         $result = exec("grep -rnw '{$this->file_full_path}' -e '{$name}:.*'");
-        if(strlen($result))
-        {
-            $result = exec("sed -i 's/{$name}:.*/{$name}: {$value}/gm' {$this->file_full_path}");
-        }
-        else
-        {
-            $result = exec("echo '{$name}: {$value}' >> {$this->file_full_path}");
-        }
+        $result = exec("echo '{$name}: {$value}' >> {$this->file_full_path}");
+        // if(strlen($result))
+        // {
+        //     $result = exec("sed -i 's/{$name}:.*/{$name}: {$value}/gm' {$this->file_full_path}");
+        // }
+        // else
+        // {
+        // }
 
         return $result;
     }
